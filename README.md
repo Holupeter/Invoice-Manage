@@ -239,6 +239,9 @@ The confirmation modal properly prevents background page scrolling when active.
 ### 9. Fully Responsive Authentication System
 Implemented a pixel-perfect, local-storage-backed Login and Sign-Up system. Users are forced to authenticate before accessing their dashboard, and session states (as well as registered accounts) are persisted seamlessly in the browser.
 
+### 10. Profile Modal with Custom Avatar Upload
+Added a responsive modal that displays user information. It includes a functioning image uploader that reads local files via `FileReader`, stores the base64 encoded image in local storage, and dynamically updates the avatar across the application while maintaining perfect visual constraints.
+
 ---
 
 ## 📱 Responsive Breakpoints
