@@ -177,6 +177,14 @@ All component styles use **CSS Modules** (`.module.css`) for scoping. Global tok
 
 **Trade-off:** More CSS to write manually, but the result is leaner bundle size and zero runtime overhead.
 
+### 6. Global Mock Data vs. User-Scoped Invoices
+
+**Decision:** Maintain global `mockData` for all users rather than isolating an empty array `[]` for new sign-ups.
+
+**Why:** Since this is a portfolio project intended for review by recruiters and peers, a critical goal is immediate demonstration of functionality. If a new user signs up and is presented with an empty state, they must manually create multiple invoices to see the grid layout, status badges, and filtering mechanics in action. Providing the mock data globally ensures that anyone who logs in instantly experiences the fully populated UI.
+
+**Trade-off:** In a real SaaS application, invoices would be strictly scoped to `user.id` in the database. Here, users effectively share a "Demo Account" workspace when it comes to invoice data.
+
 ---
 
 ## ♿ Accessibility Notes
