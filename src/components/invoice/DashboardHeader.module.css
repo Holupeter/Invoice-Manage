@@ -2,27 +2,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-  z-index: 1000; /* Extremely high to ensure it stays on top */
+  position: relative; /* Essential for z-index to work */
+  z-index: 100;        /* Sits above the invoice list */
 }
 
 .left h1 {
-  font-family: 'League Spartan', sans-serif;
   font-size: 32px;
   font-weight: 700;
   color: var(--color-text-main);
   letter-spacing: -1px;
 }
 
-.count { color: var(--color-text-secondary); margin-top: 8px; font-size: 13px; }
+.count { color: var(--color-text-secondary); margin-top: 8px; }
 .countMobile { display: none; }
 
 .right { display: flex; align-items: center; gap: 40px; }
 
-.filterContainer { 
-  position: relative; 
-  z-index: 1010; 
-}
+.filterContainer { position: relative;
+z-index: 100; }
 
 .filterBtn {
   background: none;
@@ -33,31 +30,34 @@
   cursor: pointer;
   font-weight: 700;
   color: var(--color-text-main);
-  font-family: 'League Spartan', sans-serif;
+  font-family: inherit;
   font-size: 15px;
-  letter-spacing: -0.25px;
 }
 
-.filterBtn img { transition: transform 0.2s ease; }
+.filterBtn img { transition: transform 0.2s; }
 .filterBtn img.rotated { transform: rotate(180deg); }
 
-/* FIGMA DROPDOWN - EXACT RECTANGLE VALUES */
+/* FIGMA DROPDOWN */
 .dropdown {
   position: absolute;
   top: 40px;
   left: 50%;
   transform: translateX(-50%);
   width: 192px;
-  height: 128px; /* Fixed height from your spec */
   padding: 24px;
-  background: var(--color-bg-card); /* White in Light / #1E2139 in Dark */
+  background: var(--color-bg-card); /* Ensures solid color */
   box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
   border-radius: 8px;
+  
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Ensures equal spacing for the 3 items */
-  z-index: 2000;
-  animation: fadeIn 0.2s ease-out forwards;
+  gap: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 .option {
@@ -66,7 +66,6 @@
   gap: 13px;
   cursor: pointer;
   position: relative;
-  height: 17px; /* From Group 8 Copy width/height */
 }
 
 .option input {
@@ -75,49 +74,43 @@
   cursor: pointer;
 }
 
-/* FIGMA CHECKBOX SPEC */
 .checkbox {
   width: 16px;
   height: 16px;
-  background: #DFE3FA; /* Rectangle 05 */
+  background: #DFE3FA; /* Figma Color: Visible light blue */
   border: 1px solid transparent;
   border-radius: 2px;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
   position: relative;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Prevents squishing */
 }
 
-/* Figma: 1px solid #7C5DFA */
 .option:hover .checkbox { 
-  border: 1px solid #7C5DFA; 
+  border-color: var(--color-primary); 
 }
 
 .option input:checked + .checkbox {
-  background: #7C5DFA; /* Active color */
-  border: 1px solid #7C5DFA;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-/* FIGMA CHECKMARK (Path 4) */
+/* Custom Checkmark */
 .option input:checked + .checkbox::after {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 1px;
+  left: 5px;
+  top: 2px;
   width: 4px;
-  height: 7px;
+  height: 8px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
-/* FIGMA STATUS TEXT SPEC */
 .statusText {
-  font-family: 'League Spartan', sans-serif;
   font-weight: 700;
   font-size: 15px;
-  line-height: 15px;
-  letter-spacing: -0.25px;
-  color: var(--color-text-main); /* #0C0E16 in Light mode */
+  color: var(--color-text-main);
   white-space: nowrap;
 }
 
@@ -132,11 +125,7 @@
   color: white;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.newInvoiceBtn:hover {
-  background-color: var(--color-primary-light);
+  transition: opacity 0.2s;
 }
 
 .plusCircle {
@@ -151,21 +140,14 @@
 
 @media (max-width: 767px) {
   .count { display: none; }
-  .countMobile { display: block; color: var(--color-text-secondary); font-size: 13px; }
+  .countMobile { display: block; color: var(--color-text-secondary); margin-top: 4px; }
   .byStatus { display: none; }
   .invoiceText { display: none; }
   .right { gap: 18px; }
-  .dropdown { left: auto; right: -40px; transform: none; }
+  .dropdown { left: auto; right: -40px; transform: none; } /* Align to right on mobile */
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-@media (max-width: 767px) {
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

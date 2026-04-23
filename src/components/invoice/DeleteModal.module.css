@@ -1,0 +1,114 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 24px;
+}
+
+/* DESKTOP & TABLET SPEC */
+.container {
+  width: 480px;
+  height: 249px;
+  background: #FFFFFF;
+  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
+  border-radius: 8px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.title {
+  font-family: 'League Spartan', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.5px;
+  color: #0C0E16;
+  margin-bottom: 13px;
+}
+
+.description {
+  font-family: 'League Spartan', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 22px;
+  letter-spacing: -0.1px;
+  color: #888EB0;
+  margin-bottom: 16px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: auto;
+}
+
+/* DELETE BUTTON SPEC */
+.deleteBtn {
+  width: 89px;
+  height: 48px;
+  background: #EC5757;
+  border-radius: 24px;
+  border: none;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 15px;
+  letter-spacing: -0.25px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+/* CANCEL BUTTON SPEC */
+.cancelBtn {
+  width: 91px;
+  height: 48px;
+  background: #F9FAFE;
+  border-radius: 24px;
+  border: none;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 15px;
+  letter-spacing: -0.25px;
+  color: #7E88C3;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.deleteBtn:hover, .cancelBtn:hover {
+  opacity: 0.8;
+}
+
+/* MOBILE SPEC */
+@media (max-width: 767px) {
+  .container {
+    width: 327px;
+    height: 220px;
+    padding: 32px;
+  }
+
+  .title {
+    margin-bottom: 8px;
+  }
+
+  .description {
+    line-height: 22px;
+  }
+  
+  .deleteBtn, .cancelBtn {
+    height: 48px;
+  }
+}

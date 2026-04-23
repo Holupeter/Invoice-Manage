@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './InvoiceDetail.module.css';
 import StatusBadge from '../components/invoice/StatusBadge';
 import { useInvoices } from '../context/InvoiceContext';
 import ArrowLeft from '../assets/icon-arrow-left.svg';
+import DeleteModal from '../components/invoice/DeleteModal';
 
 const InvoiceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { invoices, deleteInvoice, markAsPaid, openForm } = useInvoices();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   
   const invoice = invoices?.find(inv => inv.id.toUpperCase() === id?.toUpperCase());
 
   if (!invoice) return <div style={{ color: 'var(--color-text-main)', padding: '48px' }}>Invoice not found</div>;
 
-  const handleDelete = () => {
-    if (window.confirm(`Are you sure you want to delete invoice #${id}?`)) {
-      deleteInvoice(id);
-      navigate('/');
-    }
+  const confirmDelete = () => {
+    deleteInvoice(id);
+    navigate('/');
   };
 
   return (
@@ -35,7 +35,7 @@ const InvoiceDetail = () => {
         </div>
         <div className={styles.desktopActions}>
           <button className={styles.editBtn} onClick={() => openForm(invoice)}>Edit</button>
-          <button className={styles.deleteBtn} onClick={handleDelete}>Delete</button>
+          <button className={styles.deleteBtn} onClick={() => setIsDeleteModalOpen(true)}>Delete</button>
           {invoice.status?.toLowerCase() !== 'paid' && (
             <button className={styles.paidBtn} onClick={() => markAsPaid(invoice.id)}>Mark as Paid</button>
           )}
@@ -83,11 +83,19 @@ const InvoiceDetail = () => {
 
       <div className={styles.mobileActions}>
         <button className={styles.editBtn} onClick={() => openForm(invoice)}>Edit</button>
-        <button className={styles.deleteBtn} onClick={handleDelete}>Delete</button>
+        <button className={styles.deleteBtn} onClick={() => setIsDeleteModalOpen(true)}>Delete</button>
         {invoice.status?.toLowerCase() !== 'paid' && (
           <button className={styles.paidBtn} onClick={() => markAsPaid(invoice.id)}>Mark as Paid</button>
         )}
       </div>
+
+      {/* PIXEL-PERFECT DELETE MODAL */}
+      <DeleteModal 
+        isOpen={isDeleteModalOpen} 
+        onClose={() => setIsDeleteModalOpen(false)} 
+        onConfirm={confirmDelete}
+        invoiceId={invoice.id}
+      />
     </div>
   );
 };
