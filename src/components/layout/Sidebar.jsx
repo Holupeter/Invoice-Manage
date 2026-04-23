@@ -4,8 +4,11 @@ import Logo from '../../assets/logo.svg';
 import IconMoon from '../../assets/icon-moon.svg';
 import IconSun from '../../assets/icon-sun.svg';
 import AvatarImg from '../../assets/image-avatar.jpg';
+import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = ({ isDarkMode, onToggleTheme }) => {
+  const { logout } = useAuth();
+
   return (
     <aside className={styles.sidebar}>
       {/* Logo Area */}
@@ -22,9 +25,11 @@ const Sidebar = ({ isDarkMode, onToggleTheme }) => {
         {/* Divider */}
         <div className={styles.divider}></div>
 
-        {/* Avatar */}
+        {/* Avatar / Logout */}
         <div className={styles.avatarContainer}>
-          <img src={AvatarImg} alt="User profile" className={styles.avatar} />
+          <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer' }} title="Logout">
+            <img src={AvatarImg} alt="User profile / Logout" className={styles.avatar} />
+          </button>
         </div>
       </div>
     </aside>

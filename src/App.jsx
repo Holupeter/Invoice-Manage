@@ -4,27 +4,34 @@ import Sidebar from './components/layout/Sidebar';
 import InvoiceList from './pages/InvoiceList';
 import InvoiceDetail from './pages/InvoiceDetail';
 import { InvoiceProvider, useInvoices } from './context/InvoiceContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import InvoiceForm from './components/invoice/InvoiceForm';
+import Login from './pages/auth/Login';
+import SignUp from './pages/auth/SignUp';
+import { Navigate } from 'react-router-dom';
 import './index.css';
 
-// This sub-component allows us to access the context values
-const AppContent = ({ isDarkMode, onToggleTheme }) => {
+// Protected Route Wrapper
+const ProtectedRoute = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
+// Main layout wrapper for authenticated users
+const AuthenticatedLayout = ({ isDarkMode, onToggleTheme, children }) => {
   const { isFormOpen, closeForm, editingInvoice } = useInvoices();
 
   return (
     <>
       <Sidebar isDarkMode={isDarkMode} onToggleTheme={onToggleTheme} />
-      
       <main className="main-content">
         <div className="container">
-          <Routes>
-            <Route path="/" element={<InvoiceList />} />
-            <Route path="/invoice/:id" element={<InvoiceDetail />} />
-          </Routes>
+          {children}
         </div>
       </main>
-
-      {/* The Global Slide-over Form */}
       <InvoiceForm 
         isOpen={isFormOpen} 
         onClose={closeForm} 
@@ -32,6 +39,36 @@ const AppContent = ({ isDarkMode, onToggleTheme }) => {
         type={editingInvoice ? 'edit' : 'new'}
       />
     </>
+  );
+};
+
+// This sub-component allows us to access the context values
+const AppContent = ({ isDarkMode, onToggleTheme }) => {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route 
+        path="/" 
+        element={
+          <ProtectedRoute>
+            <AuthenticatedLayout isDarkMode={isDarkMode} onToggleTheme={onToggleTheme}>
+              <InvoiceList />
+            </AuthenticatedLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/invoice/:id" 
+        element={
+          <ProtectedRoute>
+            <AuthenticatedLayout isDarkMode={isDarkMode} onToggleTheme={onToggleTheme}>
+              <InvoiceDetail />
+            </AuthenticatedLayout>
+          </ProtectedRoute>
+        } 
+      />
+    </Routes>
   );
 };
 
@@ -52,9 +89,11 @@ function App() {
 
   return (
     <Router>
-      <InvoiceProvider>
-        <AppContent isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
-      </InvoiceProvider>
+      <AuthProvider>
+        <InvoiceProvider>
+          <AppContent isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+        </InvoiceProvider>
+      </AuthProvider>
     </Router>
   );
 }
