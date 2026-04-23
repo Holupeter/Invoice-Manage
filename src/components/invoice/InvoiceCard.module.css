@@ -54,6 +54,8 @@
   color: #858BB2;
   white-space: nowrap;
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .total {
