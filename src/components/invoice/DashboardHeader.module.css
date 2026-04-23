@@ -2,24 +2,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; /* Essential for z-index to work */
-  z-index: 100;        /* Sits above the invoice list */
+  position: relative;
+  z-index: 100;
 }
 
 .left h1 {
+  font-family: 'League Spartan', sans-serif;
   font-size: 32px;
   font-weight: 700;
   color: var(--color-text-main);
   letter-spacing: -1px;
 }
 
-.count { color: var(--color-text-secondary); margin-top: 8px; }
+.count { color: var(--color-text-secondary); margin-top: 8px; font-size: 13px; }
 .countMobile { display: none; }
 
 .right { display: flex; align-items: center; gap: 40px; }
 
-.filterContainer { position: relative;
-z-index: 100; }
+.filterContainer {
+  position: relative;
+  z-index: 110;
+}
 
 .filterBtn {
   background: none;
@@ -30,90 +33,109 @@ z-index: 100; }
   cursor: pointer;
   font-weight: 700;
   color: var(--color-text-main);
-  font-family: inherit;
+  font-family: 'League Spartan', sans-serif;
   font-size: 15px;
+  letter-spacing: -0.25px;
 }
 
-.filterBtn img { transition: transform 0.2s; }
+.filterBtn img { transition: transform 0.2s ease; }
 .filterBtn img.rotated { transform: rotate(180deg); }
 
-/* FIGMA DROPDOWN */
+/* ================================
+   FIGMA DROPDOWN — EXACT SPEC
+   Rectangle: 192 × 128px
+   Padding: 24px
+   Options at 24px, 56px, 88px from top
+   ================================ */
 .dropdown {
   position: absolute;
-  top: 40px;
+  top: 44px;
   left: 50%;
   transform: translateX(-50%);
   width: 192px;
   padding: 24px;
-  background: var(--color-bg-card); /* Ensures solid color */
+  background: var(--color-card-bg);
   box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
   border-radius: 8px;
-  
+  z-index: 200;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  animation: fadeIn 0.2s ease-out;
+  box-sizing: border-box;
+  animation: dropdownFadeIn 0.2s ease-out;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
+/* Each option row: checkbox + text */
 .option {
   display: flex;
   align-items: center;
   gap: 13px;
   cursor: pointer;
   position: relative;
+  height: 16px;
 }
 
 .option input {
   position: absolute;
   opacity: 0;
+  width: 0;
+  height: 0;
   cursor: pointer;
 }
 
+/* Figma checkbox: 16×16, #DFE3FA, radius 2px */
 .checkbox {
   width: 16px;
   height: 16px;
-  background: #DFE3FA; /* Figma Color: Visible light blue */
+  background: #DFE3FA;
   border: 1px solid transparent;
   border-radius: 2px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   position: relative;
-  flex-shrink: 0; /* Prevents squishing */
+  flex-shrink: 0;
 }
 
-.option:hover .checkbox { 
-  border-color: var(--color-primary); 
+/* Figma: hover border #7C5DFA */
+.option:hover .checkbox {
+  border: 1px solid #7C5DFA;
 }
 
+/* Figma: checked = #7C5DFA fill */
 .option input:checked + .checkbox {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: #7C5DFA;
+  border: 1px solid #7C5DFA;
 }
 
-/* Custom Checkmark */
+/* Figma: Path 4 checkmark (white) */
 .option input:checked + .checkbox::after {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 2px;
+  left: 4px;
+  top: 1px;
   width: 4px;
   height: 8px;
-  border: solid white;
+  border: solid #FFFFFF;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
+/* Figma: status label text */
 .statusText {
+  font-family: 'League Spartan', sans-serif;
   font-weight: 700;
   font-size: 15px;
+  line-height: 15px;
+  letter-spacing: -0.25px;
   color: var(--color-text-main);
   white-space: nowrap;
 }
 
+/* New Invoice button */
 .newInvoiceBtn {
   background: var(--color-primary);
   border: none;
@@ -124,8 +146,15 @@ z-index: 100; }
   gap: 16px;
   color: white;
   font-weight: 700;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 15px;
+  letter-spacing: -0.25px;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s;
+}
+
+.newInvoiceBtn:hover {
+  background-color: var(--color-primary-light);
 }
 
 .plusCircle {
@@ -138,16 +167,25 @@ z-index: 100; }
   justify-content: center;
 }
 
+/* ================================
+   MOBILE
+   ================================ */
 @media (max-width: 767px) {
+  .left h1 { font-size: 24px; }
   .count { display: none; }
-  .countMobile { display: block; color: var(--color-text-secondary); margin-top: 4px; }
+  .countMobile { display: block; color: var(--color-text-secondary); font-size: 13px; margin-top: 4px; }
   .byStatus { display: none; }
   .invoiceText { display: none; }
   .right { gap: 18px; }
-  .dropdown { left: auto; right: -40px; transform: none; } /* Align to right on mobile */
+  .dropdown {
+    left: auto;
+    right: -16px;
+    transform: none;
+    animation: dropdownFadeInMobile 0.2s ease-out;
+  }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
+@keyframes dropdownFadeInMobile {
+  from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
 }
