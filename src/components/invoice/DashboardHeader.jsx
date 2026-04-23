@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './DashboardHeader.module.css';
-import { useInvoices } from '../../context/InvoiceContext'; // Import hook
-import PlusIcon from '../../assets/icon-plus.svg';
+import { useInvoices } from '../../context/InvoiceContext';
 import ArrowDown from '../../assets/icon-arrow-down.svg';
+import PlusIcon from '../../assets/icon-plus.svg';
 
 const DashboardHeader = ({ count }) => {
-  const { openForm } = useInvoices(); // Get the openForm function
+  const { openForm, filterStatus, toggleFilter } = useInvoices();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const statuses = ['Draft', 'Pending', 'Paid'];
 
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <h1 className={styles.title}>Invoices</h1>
+        <h1>Invoices</h1>
         <p className={styles.count}>
           {count === 0 ? 'No invoices' : `There are ${count} total invoices`}
         </p>
@@ -20,21 +23,34 @@ const DashboardHeader = ({ count }) => {
       </div>
 
       <div className={styles.right}>
-        <div className={styles.filter}>
-          <span className={styles.filterText}>
-            Filter <span className={styles.filterBy}>by status</span>
-          </span>
-          <img src={ArrowDown} alt="" className={styles.arrow} />
+        <div className={styles.filterContainer}>
+          <button className={styles.filterBtn} onClick={() => setIsOpen(!isOpen)}>
+            <span>Filter<span className={styles.byStatus}> by status</span></span>
+            <img src={ArrowDown} alt="" className={isOpen ? styles.rotated : ''} />
+          </button>
+
+          {isOpen && (
+            <div className={styles.dropdown}>
+              {statuses.map((status) => (
+                <label key={status} className={styles.option}>
+                  <input 
+                    type="checkbox" 
+                    checked={filterStatus.includes(status.toLowerCase())}
+                    onChange={() => toggleFilter(status.toLowerCase())}
+                  />
+                  <span className={styles.checkbox}></span>
+                  <span className={styles.statusText}>{status}</span>
+                </label>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Trigger the form on click */}
-        <button className={styles.newButton} onClick={() => openForm()}>
-          <div className={styles.plusBg}>
+        <button className={styles.newInvoiceBtn} onClick={() => openForm()}>
+          <div className={styles.plusCircle}>
             <img src={PlusIcon} alt="" />
           </div>
-          <span className={styles.btnText}>
-            New <span className={styles.btnFullText}>Invoice</span>
-          </span>
+          <span>New<span className={styles.invoiceText}> Invoice</span></span>
         </button>
       </div>
     </header>

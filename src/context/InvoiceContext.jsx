@@ -11,6 +11,7 @@ export const InvoiceProvider = ({ children }) => {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState(null);
+  const [filterStatus, setFilterStatus] = useState([]); // Array to store multiple active filters
 
   useEffect(() => {
     localStorage.setItem('invoices', JSON.stringify(invoices));
@@ -46,17 +47,34 @@ export const InvoiceProvider = ({ children }) => {
     ));
   };
 
+  const toggleFilter = (status) => {
+    setFilterStatus(prev => 
+      prev.includes(status) 
+        ? prev.filter(s => s !== status) 
+        : [...prev, status]
+    );
+  };
+
+  // Compute filtered list
+  const filteredInvoices = invoices.filter(invoice => {
+    if (filterStatus.length === 0) return true;
+    return filterStatus.includes(invoice.status.toLowerCase());
+  });
+
   return (
     <InvoiceContext.Provider value={{ 
-      invoices, 
+      invoices: filteredInvoices, // Export the filtered list
+      allInvoices: invoices,      // Original list
       isFormOpen, 
       editingInvoice, 
+      filterStatus,
       openForm, 
       closeForm,
       addInvoice,
       updateInvoice,
       deleteInvoice,
-      markAsPaid
+      markAsPaid,
+      toggleFilter
     }}>
       {children}
     </InvoiceContext.Provider>
