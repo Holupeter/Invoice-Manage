@@ -4,7 +4,7 @@ import Sidebar from './components/layout/Sidebar';
 import InvoiceList from './pages/InvoiceList';
 import InvoiceDetail from './pages/InvoiceDetail';
 import { InvoiceProvider, useInvoices } from './context/InvoiceContext';
-import InvoiceForm from './components/invoice/InvoiceForm'; // Correct path
+import InvoiceForm from './components/invoice/InvoiceForm';
 import './index.css';
 
 // This sub-component allows us to access the context values

@@ -1,50 +1,53 @@
 .container {
+  /* Use a fluid width that scales between 327px (mobile) and 730px (desktop) */
+  width: 100%;
   max-width: 730px;
-  margin: 72px auto; /* Centering on Desktop */
+  margin: 72px auto;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .list {
   margin-top: 64px;
-  width: 100%; /* Ensures cards take up the full container width */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 }
 
+/* 
+  SAFETY INJECTION: 
+  This ensures any child card's total price stays on one line 
+  no matter how long the amount is.
+*/
+.list :global(.total) {
+  white-space: nowrap !important;
+  min-width: fit-content;
+}
+
+/* TABLET - Match Figma 768px - 1024px */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 672px;
+    margin: 56px auto;
+  }
+}
+
+/* MOBILE - Below 768px */
+@media (max-width: 767px) {
+  .container {
+    margin: 32px auto;
+    padding: 0 24px;
+  }
+  .list { margin-top: 32px; gap: 12px; }
+}
+
+/* Semantic Empty State */
 .emptyState {
-  margin-top: 100px;
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.emptyState h2 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-text-main);
-  margin-top: 64px;
-  margin-bottom: 24px;
-}
-
-.emptyState p {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  max-width: 220px;
-  line-height: 15px;
-}
-
-.emptyState span { font-weight: 700; }
-
-@media (max-width: 1024px) {
-  .container { 
-    margin-top: 56px; 
-    padding: 0 48px;
-  }
-}
-
-@media (max-width: 767px) {
-  .container { 
-    margin-top: 32px; 
-    padding: 0 24px;
-  }
-  .list { margin-top: 32px; }
+  justify-content: center;
+  margin-top: clamp(40px, 10vh, 100px);
+  text-align: center;
 }

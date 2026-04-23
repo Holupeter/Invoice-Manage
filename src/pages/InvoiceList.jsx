@@ -9,23 +9,25 @@ const InvoiceList = () => {
   const { invoices } = useInvoices();
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <DashboardHeader count={invoices.length} />
       
-      <div className={styles.list}>
+      <section className={styles.list} aria-label="Invoices list">
         {invoices.length > 0 ? (
           invoices.map((invoice) => (
             <InvoiceCard key={invoice.id} invoice={invoice} />
           ))
         ) : (
           <div className={styles.emptyState}>
-            <img src={EmptyIllustration} alt="No invoices" />
+            <img src={EmptyIllustration} alt="" role="presentation" />
             <h2>There is nothing here</h2>
-            <p>Create an invoice by clicking the <span>New Invoice</span> button and get started</p>
+            <p>
+              Create an invoice by clicking the <strong>New Invoice</strong> button and get started
+            </p>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
