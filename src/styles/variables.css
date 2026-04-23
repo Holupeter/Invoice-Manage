@@ -1,0 +1,42 @@
+:root {
+  /* Colors - Primary */
+  --color-primary: #7C5DFA;
+  --color-primary-light: #9277FF;
+  
+  /* Colors - Functional */
+  --color-danger: #EC5757;
+  --color-danger-light: #FF9797;
+  
+  /* Colors - Neutrals (Light Mode) */
+  --color-bg: #F8F8FB;
+  --color-card-bg: #FFFFFF;
+  --color-sidebar-bg: #373B53;
+  --color-text-main: #0C0E16;
+  --color-text-secondary: #7E88C3;
+  --color-text-tertiary: #888EB0;
+  --color-border: #DFE3FA;
+  --color-input-bg: #FFFFFF;
+  
+  /* Typography */
+  --font-main: 'League Spartan', sans-serif;
+  
+  /* Shadows */
+  --shadow-main: 0px 10px 20px rgba(72, 84, 159, 0.25);
+  
+  /* Layout */
+  --sidebar-width: 103px;
+  --container-max-width: 730px;
+}
+
+/* Dark Mode Overrides */
+[data-theme='dark'] {
+  --color-bg: #141625;
+  --color-card-bg: #1E2139;
+  --color-sidebar-bg: #1E2139;
+  --color-text-main: #FFFFFF;
+  --color-text-secondary: #DFE3FA;
+  --color-text-tertiary: #888EB0;
+  --color-border: #252945;
+  --color-input-bg: #1E2139;
+  --shadow-main: 0px 10px 20px rgba(0, 0, 0, 0.25);
+}
