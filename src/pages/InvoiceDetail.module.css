@@ -1,0 +1,199 @@
+.container {
+  width: 100%;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 32px;
+  padding: 0;
+}
+
+.backBtn span {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--color-text-main);
+  transition: color 0.3s ease;
+}
+
+.backBtn:hover span {
+  color: var(--color-text-tertiary);
+}
+
+.statusBar {
+  background-color: var(--color-card-bg);
+  height: 88px;
+  padding: 0 32px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
+  margin-bottom: 24px;
+}
+
+.statusLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.statusLabel {
+  font-size: 13px;
+  color: #858BB2;
+}
+
+.desktopActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editBtn, .deleteBtn, .paidBtn {
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0 24px;
+  transition: all 0.3s ease;
+}
+
+.editBtn { background: #F9FAFE; color: #7E88C3; }
+.deleteBtn { background: #EC5757; color: #FFFFFF; }
+.paidBtn { background: #7C5DFA; color: #FFFFFF; }
+
+.editBtn:hover { background: #DFE3FA; }
+.deleteBtn:hover { background: #FF9797; }
+.paidBtn:hover { background: #9277FF; }
+
+/* Main Card */
+.mainContent {
+  background-color: var(--color-card-bg);
+  padding: 48px;
+  border-radius: 8px;
+  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
+  margin-bottom: 24px;
+}
+
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.id { font-size: 16px; font-weight: 700; color: var(--color-text-main); }
+.id span { color: #888EB0; }
+.description { font-size: 13px; color: #7E88C3; margin-top: 8px; }
+
+.senderAddress {
+  text-align: right;
+  font-size: 11px;
+  line-height: 18px;
+  color: #7E88C3;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 45px;
+}
+
+.infoGroup { margin-bottom: 32px; }
+.label { font-size: 13px; color: #7E88C3; display: block; margin-bottom: 12px; }
+.value { font-size: 15px; font-weight: 700; color: var(--color-text-main); }
+.clientAddress { margin-top: 8px; font-size: 11px; line-height: 18px; color: #7E88C3; }
+
+/* Table Styling */
+.tableContainer {
+  background-color: #F9FAFE;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .tableContainer {
+  background-color: #252945;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr;
+  padding: 32px;
+  font-size: 11px;
+  color: #7E88C3;
+}
+
+.tableItems {
+  padding-bottom: 32px;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr;
+  padding: 0 32px 18px 32px;
+  align-items: center;
+}
+
+.itemName p { font-weight: 700; font-size: 12px; color: var(--color-text-main); }
+.itemQty, .itemPrice { font-weight: 700; color: #7E88C3; text-align: center; }
+.itemPrice { text-align: right; }
+.itemTotal { font-weight: 700; color: var(--color-text-main); text-align: right; }
+
+.tableFooter {
+  background-color: #373B53;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 8px 8px;
+}
+
+[data-theme='dark'] .tableFooter {
+  background-color: #0C0E16;
+}
+
+.tableFooter span { font-size: 11px; color: #FFFFFF; }
+.tableFooter p { font-size: 24px; font-weight: 700; color: #FFFFFF; }
+
+/* Responsive */
+.mobileActions { display: none; }
+.itemMetaMobile { display: none; }
+
+@media (max-width: 767px) {
+  .mainContent { padding: 24px; }
+  .infoGrid { grid-template-columns: 1fr 1fr; }
+  .sentTo { grid-column: span 2; margin-top: 32px; }
+  .contentHeader { flex-direction: column; gap: 30px; }
+  .senderAddress { text-align: left; }
+
+  .tableHeader { display: none; }
+  .itemRow { 
+    grid-template-columns: 1fr 1fr; 
+    padding: 24px;
+    margin-bottom: 0;
+  }
+  .itemQty, .itemPrice { display: none; }
+  .itemMetaMobile { display: block; margin-top: 8px; color: #7E88C3; font-weight: 700; }
+  
+  .desktopActions { display: none; }
+  .mobileActions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    background-color: var(--color-card-bg);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .container { padding-bottom: 100px; }
+}
