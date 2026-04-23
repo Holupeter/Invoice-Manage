@@ -1,0 +1,150 @@
+.sidebar {
+  background-color: var(--color-sidebar-bg);
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+/* Desktop Styles (Vertical) */
+@media (min-width: 1025px) {
+  .sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+    left: 0;
+    top: 0;
+    border-radius: 0 20px 20px 0;
+  }
+  .logo {
+    width: 103px;
+    height: 103px;
+  }
+  .actionsContainer {
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 24px;
+    align-items: center;
+  }
+  .divider {
+    width: 100%;
+    height: 1px;
+    margin: 24px 0;
+  }
+  .themeToggle {
+    padding: 24px 0;
+    width: 100%;
+  }
+}
+
+/* Tablet & Mobile Styles (Horizontal Top Bar) */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 100%;
+    height: 80px; /* Tablet Default */
+    flex-direction: row;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+  }
+  
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .actionsContainer {
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    padding-right: 32px;
+  }
+
+  .divider {
+    height: 100%;
+    width: 1px;
+    margin: 0 32px;
+  }
+
+  .themeToggle {
+    height: 100%;
+    padding: 0 32px;
+  }
+}
+
+/* Mobile Specific Height Adjustment */
+@media (max-width: 767px) {
+  .sidebar {
+    height: 72px;
+  }
+  .logo {
+    width: 72px;
+    height: 72px;
+  }
+  .actionsContainer {
+    padding-right: 24px;
+  }
+  .divider {
+    margin: 0 24px;
+  }
+  .themeToggle {
+    padding: 0 24px;
+  }
+  .avatar {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+/* Common Element Styles */
+.logoContainer {
+  display: flex;
+}
+
+.actionsContainer {
+  display: flex;
+  align-items: center;
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.themeToggle img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.themeToggle:hover img {
+  filter: brightness(1.5);
+}
+
+.divider {
+  background-color: #494E6E;
+}
+
+.avatarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.avatar:hover {
+  border-color: var(--color-primary);
+}
