@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/layout/Sidebar';
+import InvoiceList from './pages/InvoiceList';
+import './index.css';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -14,14 +16,14 @@ function App() {
     <Router>
       <Sidebar isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
       
-      <main style={{ 
-        flex: 1, 
-        paddingLeft: 'var(--sidebar-width)', 
-        transition: 'padding 0.3s ease' 
-      }}>
-        <div style={{ maxWidth: '730px', margin: '72px auto', padding: '0 24px' }}>
+      {/* 
+          Senior Dev Layout Logic: 
+          Account for the sidebar/topbar height responsively 
+      */}
+      <main className="main-content">
+        <div className="container">
           <Routes>
-            <Route path="/" element={<h1>Invoice Dashboard</h1>} />
+            <Route path="/" element={<InvoiceList />} />
             <Route path="/invoice/:id" element={<h1>Invoice Detail</h1>} />
           </Routes>
         </div>
