@@ -1,59 +1,72 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import styles from './InvoiceDetail.module.css';
-import { mockInvoices } from '../utils/mockData';
 import StatusBadge from '../components/invoice/StatusBadge';
+import { useInvoices } from '../context/InvoiceContext';
 import ArrowLeft from '../assets/icon-arrow-left.svg';
 
 const InvoiceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const invoice = mockInvoices.find(inv => inv.id === id);
+  const { invoices, deleteInvoice, markAsPaid, openForm } = useInvoices();
+  
+  // Case-insensitive match just to be safe
+  const invoice = invoices.find(inv => inv.id.toUpperCase() === id.toUpperCase());
 
   if (!invoice) return <div style={{ color: 'var(--color-text-main)', padding: '48px' }}>Invoice not found</div>;
 
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete invoice #${id}?`)) {
+      deleteInvoice(id);
+      navigate('/');
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <button className={styles.backBtn} onClick={() => navigate(-1)}>
+      <Link to="/" className={styles.backBtn}>
         <img src={ArrowLeft} alt="" />
         <span>Go back</span>
-      </button>
+      </Link>
 
       <div className={styles.statusBar}>
-        <div className={styles.statusLeft}>
-          <span className={styles.statusLabel}>Status</span>
+        <div className={styles.statusInfo}>
+          <span>Status</span>
           <StatusBadge status={invoice.status} />
         </div>
+        
         <div className={styles.desktopActions}>
-          <button className={styles.editBtn}>Edit</button>
-          <button className={styles.deleteBtn}>Delete</button>
-          <button className={styles.paidBtn}>Mark as Paid</button>
+          <button className={styles.editBtn} onClick={() => openForm(invoice)}>Edit</button>
+          <button className={styles.deleteBtn} onClick={handleDelete}>Delete</button>
+          {invoice.status !== 'paid' && (
+            <button className={styles.paidBtn} onClick={() => markAsPaid(id)}>Mark as Paid</button>
+          )}
         </div>
       </div>
 
       <div className={styles.mainContent}>
-        <header className={styles.contentHeader}>
-           <div>
-             <span className={styles.id}><span>#</span>{invoice.id}</span>
-             <p className={styles.description}>Graphic Design</p>
-           </div>
-           <div className={styles.senderAddress}>
-             <p>19 Union Terrace</p>
-             <p>London</p>
-             <p>E1 3EZ</p>
-             <p>United Kingdom</p>
-           </div>
-        </header>
+        <div className={styles.contentHeader}>
+          <div>
+            <h1 className={styles.id}><span>#</span>{invoice.id}</h1>
+            <p className={styles.description}>{invoice.description}</p>
+          </div>
+          <div className={styles.senderAddress}>
+            <p>{invoice.senderAddress.street}</p>
+            <p>{invoice.senderAddress.city}</p>
+            <p>{invoice.senderAddress.postCode}</p>
+            <p>{invoice.senderAddress.country}</p>
+          </div>
+        </div>
 
         <div className={styles.infoGrid}>
           <div className={styles.dates}>
             <div className={styles.infoGroup}>
               <span className={styles.label}>Invoice Date</span>
-              <p className={styles.value}>21 Aug 2021</p>
+              <p className={styles.value}>{invoice.createdAt}</p>
             </div>
             <div className={styles.infoGroup}>
               <span className={styles.label}>Payment Due</span>
-              <p className={styles.value}>20 Sep 2021</p>
+              <p className={styles.value}>{invoice.paymentDue}</p>
             </div>
           </div>
 
@@ -61,59 +74,54 @@ const InvoiceDetail = () => {
             <span className={styles.label}>Bill To</span>
             <p className={styles.value}>{invoice.clientName}</p>
             <div className={styles.clientAddress}>
-              <p>84 Church Way</p>
-              <p>Bradford</p>
-              <p>BD1 9PB</p>
-              <p>United Kingdom</p>
+              <p>{invoice.clientAddress.street}</p>
+              <p>{invoice.clientAddress.city}</p>
+              <p>{invoice.clientAddress.postCode}</p>
+              <p>{invoice.clientAddress.country}</p>
             </div>
           </div>
 
           <div className={styles.sentTo}>
             <span className={styles.label}>Sent to</span>
-            <p className={styles.value}>alexgrim@mail.com</p>
+            <p className={styles.value}>{invoice.clientEmail}</p>
           </div>
         </div>
 
         <div className={styles.tableContainer}>
           <div className={styles.tableHeader}>
             <span>Item Name</span>
-            <span style={{ textAlign: 'center' }}>QTY.</span>
-            <span style={{ textAlign: 'right' }}>Price</span>
-            <span style={{ textAlign: 'right' }}>Total</span>
+            <span>QTY.</span>
+            <span>Price</span>
+            <span>Total</span>
           </div>
 
           <div className={styles.tableItems}>
-             <div className={styles.itemRow}>
-               <div className={styles.itemName}>
-                 <p>Banner Design</p>
-                 <span className={styles.itemMetaMobile}>1 x £ 156.00</span>
-               </div>
-               <span className={styles.itemQty}>1</span>
-               <span className={styles.itemPrice}>£ 156.00</span>
-               <span className={styles.itemTotal}>£ 156.00</span>
-             </div>
-             <div className={styles.itemRow}>
-               <div className={styles.itemName}>
-                 <p>Email Design</p>
-                 <span className={styles.itemMetaMobile}>2 x £ 200.00</span>
-               </div>
-               <span className={styles.itemQty}>2</span>
-               <span className={styles.itemPrice}>£ 200.00</span>
-               <span className={styles.itemTotal}>£ 400.00</span>
-             </div>
+            {invoice.items.map((item, index) => (
+              <div key={index} className={styles.itemRow}>
+                <div className={styles.itemName}>
+                  <p>{item.name}</p>
+                  <span className={styles.itemMetaMobile}>{item.quantity} x £ {item.price.toFixed(2)}</span>
+                </div>
+                <span className={styles.itemQty}>{item.quantity}</span>
+                <span className={styles.itemPrice}>£ {item.price.toFixed(2)}</span>
+                <span className={styles.itemTotal}>£ {item.total.toFixed(2)}</span>
+              </div>
+            ))}
           </div>
 
           <div className={styles.tableFooter}>
             <span>Amount Due</span>
-            <p>£ 556.00</p>
+            <p>£ {invoice.total.toFixed(2)}</p>
           </div>
         </div>
       </div>
 
       <div className={styles.mobileActions}>
-        <button className={styles.editBtn}>Edit</button>
-        <button className={styles.deleteBtn}>Delete</button>
-        <button className={styles.paidBtn}>Mark as Paid</button>
+        <button className={styles.editBtn} onClick={() => openForm(invoice)}>Edit</button>
+        <button className={styles.deleteBtn} onClick={handleDelete}>Delete</button>
+        {invoice.status !== 'paid' && (
+          <button className={styles.paidBtn} onClick={() => markAsPaid(id)}>Mark as Paid</button>
+        )}
       </div>
     </div>
   );

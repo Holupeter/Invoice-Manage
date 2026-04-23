@@ -1,0 +1,50 @@
+.container {
+  max-width: 730px;
+  margin: 72px auto; /* Centering on Desktop */
+  padding: 0 24px;
+}
+
+.list {
+  margin-top: 64px;
+  width: 100%; /* Ensures cards take up the full container width */
+}
+
+.emptyState {
+  margin-top: 100px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.emptyState h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-top: 64px;
+  margin-bottom: 24px;
+}
+
+.emptyState p {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  max-width: 220px;
+  line-height: 15px;
+}
+
+.emptyState span { font-weight: 700; }
+
+@media (max-width: 1024px) {
+  .container { 
+    margin-top: 56px; 
+    padding: 0 48px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container { 
+    margin-top: 32px; 
+    padding: 0 24px;
+  }
+  .list { margin-top: 32px; }
+}
