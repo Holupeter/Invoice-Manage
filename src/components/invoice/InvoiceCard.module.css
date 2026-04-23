@@ -1,17 +1,17 @@
 .card {
   background-color: var(--color-card-bg);
   border-radius: 8px;
-  padding: 16px 32px;
+  padding: 16px 32px; /* Unified padding for Desktop & Tablet */
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-decoration: none;
-  /* EXACT FIGMA SHADOW */
   box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1); 
   border: 1px solid transparent;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
   margin-bottom: 16px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .card:hover {
@@ -19,33 +19,34 @@
 }
 
 .left, .right {
-  display: flex;
-  align-items: center;
-  gap: 40px;
+  display: contents; 
 }
 
+
+/* TABLET REFINEMENT: Keep columns locked but slightly tighter */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .card {
+    grid-template-columns: 80px 120px 1fr 100px 140px;
+    padding: 16px 24px;
+    gap: 10px;
+  }
+}
 .id {
   font-family: 'League Spartan', sans-serif;
   font-weight: 700;
   font-size: 15px;
   letter-spacing: -0.25px;
   color: var(--color-text-main);
-  width: 70px;
 }
-
-.hash { color: #7E88C3; } /* Figma 07 Color */
-
+.hash { color: #7E88C3; }
 .dueDate, .clientName {
   font-family: 'League Spartan', sans-serif;
   font-weight: 500;
   font-size: 13px;
   letter-spacing: -0.1px;
   color: var(--color-text-tertiary);
-  width: 120px;
 }
-
 .clientName { color: #858BB2; }
-
 .total {
   font-family: 'League Spartan', sans-serif;
   font-size: 15px;
@@ -53,17 +54,22 @@
   line-height: 24px;
   letter-spacing: -0.25px;
   color: var(--color-text-main);
-  width: 100px;
   text-align: right;
+  margin-right: 20px; /* Space before the status badge */
 }
-
 .statusWrapper {
   display: flex;
   align-items: center;
   gap: 20px;
+  justify-self: end; /* Anchors the badge and arrow to the far right */
+}
+.arrow {
+  width: 7px;
+  height: 10px;
 }
 
-/* MOBILE PIXEL-PERFECT REFINEMENT */
+
+/* MOBILE VIEW - REMAINS PERFECT */
 @media (max-width: 767px) {
   .card {
     height: 134px;
@@ -77,41 +83,12 @@
     align-items: center;
     gap: 0;
   }
-
-  .left, .right {
-    display: contents; /* Allows grid-area to work */
-  }
-
-  .id { 
-    grid-area: id; 
-    width: auto;
-    margin-bottom: 24px;
-  }
   
-  .clientName { 
-    grid-area: name; 
-    text-align: right; 
-    width: auto;
-    margin-bottom: 24px;
-  }
-
-  .dueDate { 
-    grid-area: date; 
-    width: auto;
-    margin-bottom: 8px;
-  }
-
-  .total { 
-    grid-area: total; 
-    text-align: left; 
-    width: auto;
-    font-size: 16px; 
-  }
-
-  .statusWrapper { 
-    grid-area: status; 
-    justify-self: end;
-  }
-
+  .left, .right { display: contents; }
+  .id { grid-area: id; margin-bottom: 24px; }
+  .clientName { grid-area: name; text-align: right; margin-bottom: 24px; }
+  .dueDate { grid-area: date; margin-bottom: 8px; }
+  .total { grid-area: total; text-align: left; font-size: 16px; }
+  .statusWrapper { grid-area: status; justify-self: end; }
   .arrow { display: none; }
 }
