@@ -3,21 +3,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/layout/Sidebar';
 import InvoiceList from './pages/InvoiceList';
 import InvoiceDetail from './pages/InvoiceDetail';
+import { InvoiceProvider, useInvoices } from './context/InvoiceContext';
+import InvoiceForm from './components/invoice/InvoiceForm'; // Correct path
 import './index.css';
 
-function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
-  };
+// This sub-component allows us to access the context values
+const AppContent = ({ isDarkMode, onToggleTheme }) => {
+  const { isFormOpen, closeForm, editingInvoice } = useInvoices();
 
   return (
-    <Router>
-      <Sidebar isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+    <>
+      <Sidebar isDarkMode={isDarkMode} onToggleTheme={onToggleTheme} />
       
-     
       <main className="main-content">
         <div className="container">
           <Routes>
@@ -26,6 +23,31 @@ function App() {
           </Routes>
         </div>
       </main>
+
+      {/* The Global Slide-over Form */}
+      <InvoiceForm 
+        isOpen={isFormOpen} 
+        onClose={closeForm} 
+        invoiceData={editingInvoice}
+        type={editingInvoice ? 'edit' : 'new'}
+      />
+    </>
+  );
+};
+
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.setAttribute('data-theme', !isDarkMode ? 'dark' : 'light');
+  };
+
+  return (
+    <Router>
+      <InvoiceProvider>
+        <AppContent isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+      </InvoiceProvider>
     </Router>
   );
 }
