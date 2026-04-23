@@ -1,3 +1,7 @@
+/* ============================
+   DESKTOP SIDEBAR (Vertical)
+   Figma: 103px wide, full height
+   ============================ */
 .sidebar {
   position: fixed;
   top: 0;
@@ -9,105 +13,32 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 0 20px 20px 0;
-  z-index: 200; /* Higher than the Form (101) */
+  z-index: 200;
 }
 
-/* Desktop Styles (Vertical) */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 100%;
-    height: 80px;
-    flex-direction: row;
-    border-radius: 0;
-  }
-  .logo {
-    width: 103px;
-    height: 103px;
-  }
-  .actionsContainer {
-    flex-direction: column;
-    width: 100%;
-    padding-bottom: 24px;
-    align-items: center;
-  }
-  .divider {
-    width: 100%;
-    height: 1px;
-    margin: 24px 0;
-  }
-  .themeToggle {
-    padding: 24px 0;
-    width: 100%;
-  }
-}
-
-/* Tablet & Mobile Styles (Horizontal Top Bar) */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 100%;
-    height: 80px; /* Tablet Default */
-    flex-direction: row;
-    justify-content: space-between;
-    top: 0;
-    left: 0;
-  }
-  
-  .logo {
-    width: 80px;
-    height: 80px;
-  }
-
-  .actionsContainer {
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-    padding-right: 32px;
-  }
-
-  .divider {
-    height: 100%;
-    width: 1px;
-    margin: 0 32px;
-  }
-
-  .themeToggle {
-    height: 100%;
-    padding: 0 32px;
-  }
-}
-
-/* Mobile Specific Height Adjustment */
-@media (max-width: 767px) {
-  .sidebar {
-    height: 72px;
-  }
-  .logo {
-    width: 72px;
-    height: 72px;
-  }
-  .actionsContainer {
-    padding-right: 24px;
-  }
-  .divider {
-    margin: 0 24px;
-  }
-  .themeToggle {
-    padding: 0 24px;
-  }
-  .avatar {
-    width: 32px !important;
-    height: 32px !important;
-  }
-}
-
-/* Common Element Styles */
+/* Logo at the top */
 .logoContainer {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 103px;
+  height: 103px;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
+.logo {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Bottom section: Toggle + Divider + Avatar (vertically stacked) */
 .actionsContainer {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .themeToggle {
@@ -117,6 +48,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  width: 100%;
+  padding: 24px 0;
 }
 
 .themeToggle img {
@@ -129,14 +62,20 @@
   filter: brightness(1.5);
 }
 
+/* Horizontal line between toggle and avatar */
 .divider {
+  width: 100%;
+  height: 1px;
   background-color: #494E6E;
 }
 
+/* Avatar centered below divider */
 .avatarContainer {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  padding: 24px 0;
 }
 
 .avatar {
@@ -150,4 +89,80 @@
 
 .avatar:hover {
   border-color: var(--color-primary);
+}
+
+/* ============================
+   TABLET (Horizontal Top Bar)
+   Figma: 768px frame, 80px height
+   ============================ */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 100%;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 0;
+  }
+
+  .logoContainer {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Actions row: toggle | divider | avatar (horizontally) */
+  .actionsContainer {
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: auto;
+    padding: 0;
+  }
+
+  .themeToggle {
+    height: 100%;
+    width: auto;
+    padding: 0 32px;
+  }
+
+  .divider {
+    width: 1px;
+    height: 100%;
+    margin: 0;
+  }
+
+  .avatarContainer {
+    padding: 0 32px;
+  }
+}
+
+/* ============================
+   MOBILE
+   Figma: 375px frame, 72px height
+   ============================ */
+@media (max-width: 767px) {
+  .sidebar {
+    height: 72px;
+  }
+
+  .logoContainer {
+    width: 72px;
+    height: 72px;
+  }
+
+  .themeToggle {
+    padding: 0 24px;
+  }
+
+  .divider {
+    margin: 0;
+  }
+
+  .avatarContainer {
+    padding: 0 24px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
 }

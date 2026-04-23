@@ -1,16 +1,16 @@
 .card {
   background-color: var(--color-card-bg);
   border-radius: 8px;
-  padding: 16px 32px; /* Unified padding for Desktop & Tablet */
-  display: flex;
-  justify-content: space-between;
+  padding: 16px 24px;
+  display: grid;
+  /* 5 columns: ID | Date | Name | Total | StatusWrapper (badge+arrow) */
+  grid-template-columns: 87px 140px 1fr auto auto;
   align-items: center;
+  gap: 0 20px;
   text-decoration: none;
-  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1); 
+  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
   border: 1px solid transparent;
-  transition: all 0.3s ease;
-  margin-bottom: 16px;
-  width: 100%;
+  transition: border-color 0.3s ease;
   box-sizing: border-box;
 }
 
@@ -19,34 +19,43 @@
 }
 
 .left, .right {
-  display: contents; 
+  display: contents;
 }
 
+/* --- Typography from Figma --- */
 
-/* TABLET REFINEMENT: Keep columns locked but slightly tighter */
-@media (max-width: 1024px) and (min-width: 768px) {
-  .card {
-    grid-template-columns: 80px 120px 1fr 100px 140px;
-    padding: 16px 24px;
-    gap: 10px;
-  }
-}
 .id {
   font-family: 'League Spartan', sans-serif;
   font-weight: 700;
   font-size: 15px;
+  line-height: 15px;
   letter-spacing: -0.25px;
   color: var(--color-text-main);
+  white-space: nowrap;
 }
 .hash { color: #7E88C3; }
-.dueDate, .clientName {
+
+.dueDate {
   font-family: 'League Spartan', sans-serif;
   font-weight: 500;
   font-size: 13px;
+  line-height: 15px;
   letter-spacing: -0.1px;
   color: var(--color-text-tertiary);
+  white-space: nowrap;
 }
-.clientName { color: #858BB2; }
+
+.clientName {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.1px;
+  color: #858BB2;
+  white-space: nowrap;
+  min-width: 0;
+}
+
 .total {
   font-family: 'League Spartan', sans-serif;
   font-size: 15px;
@@ -55,27 +64,38 @@
   letter-spacing: -0.25px;
   color: var(--color-text-main);
   text-align: right;
-  margin-right: 20px; /* Space before the status badge */
+  white-space: nowrap;
 }
+
+/* Badge + Arrow sit together, auto-sized so badge never overflows */
 .statusWrapper {
   display: flex;
   align-items: center;
   gap: 20px;
-  justify-self: end; /* Anchors the badge and arrow to the far right */
+  flex-shrink: 0;
 }
+
 .arrow {
   width: 7px;
   height: 10px;
 }
 
+/* --- TABLET (768px - 1024px) --- */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .card {
+    grid-template-columns: 80px 120px 1fr auto auto;
+    padding: 16px 24px;
+    gap: 0 16px;
+  }
+}
 
-/* MOBILE VIEW - REMAINS PERFECT */
+/* --- MOBILE (below 768px) --- */
 @media (max-width: 767px) {
   .card {
     height: 134px;
     padding: 24px;
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
       "id name"
       "date status"
       "total status";
@@ -83,10 +103,15 @@
     align-items: center;
     gap: 0;
   }
-  
+
   .left, .right { display: contents; }
   .id { grid-area: id; margin-bottom: 24px; }
-  .clientName { grid-area: name; text-align: right; margin-bottom: 24px; }
+  .clientName { 
+    grid-area: name; 
+    text-align: right; 
+    margin-bottom: 24px;
+    white-space: normal;
+  }
   .dueDate { grid-area: date; margin-bottom: 8px; }
   .total { grid-area: total; text-align: left; font-size: 16px; }
   .statusWrapper { grid-area: status; justify-self: end; }

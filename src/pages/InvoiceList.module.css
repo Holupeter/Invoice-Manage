@@ -1,5 +1,4 @@
 .container {
-  /* Use a fluid width that scales between 327px (mobile) and 730px (desktop) */
   width: 100%;
   max-width: 730px;
   margin: 72px auto;
@@ -15,17 +14,7 @@
   width: 100%;
 }
 
-/* 
-  SAFETY INJECTION: 
-  This ensures any child card's total price stays on one line 
-  no matter how long the amount is.
-*/
-.list :global(.total) {
-  white-space: nowrap !important;
-  min-width: fit-content;
-}
-
-/* TABLET - Match Figma 768px - 1024px */
+/* TABLET - Figma: 768px frame, 672px content width */
 @media (max-width: 1024px) {
   .container {
     max-width: 672px;
@@ -33,16 +22,16 @@
   }
 }
 
-/* MOBILE - Below 768px */
+/* MOBILE - Figma: 375px frame, 327px content width (24px padding each side) */
 @media (max-width: 767px) {
   .container {
     margin: 32px auto;
     padding: 0 24px;
   }
-  .list { margin-top: 32px; gap: 12px; }
+  .list { margin-top: 32px; gap: 16px; }
 }
 
-/* Semantic Empty State */
+/* Empty State */
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -50,4 +39,21 @@
   justify-content: center;
   margin-top: clamp(40px, 10vh, 100px);
   text-align: center;
+}
+
+.emptyState h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-top: 40px;
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
+}
+
+.emptyState p {
+  font-size: 13px;
+  line-height: 15px;
+  color: var(--color-text-secondary);
+  max-width: 220px;
+  letter-spacing: -0.1px;
 }

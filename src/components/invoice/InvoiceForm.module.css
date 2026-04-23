@@ -94,6 +94,8 @@
 
 @media (max-width: 767px) {
   .drawer { top: 72px; max-width: 100%; height: calc(100vh - 72px); }
+  .headerTitle { padding: 24px 24px 0 24px; }
+  .formContent { padding: 0 24px 24px 24px; }
   .grid3, .grid2 { grid-template-columns: 1fr 1fr; gap: 15px; }
   .grid3 > div:last-child { grid-column: span 2; }
   .itemHeader { display: none; }
@@ -101,4 +103,23 @@
   .itemRow { grid-template-columns: 1fr 2fr 1fr 0.5fr; gap: 24px 16px; }
   .itemNameInput { grid-column: span 4; }
   .itemTotal { margin-bottom: 15px; }
+
+  /* Figma: Footer buttons in mobile */
+  .footer {
+    padding: 22px 24px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .footerLeft { flex: 0 0 auto; }
+  .footerRight { 
+    display: flex; 
+    gap: 8px; 
+    margin-left: auto; 
+  }
+  .discardBtn, .draftBtn, .saveBtn {
+    height: 48px;
+    padding: 0 16px;
+    font-size: 15px;
+    letter-spacing: -0.25px;
+  }
 }
