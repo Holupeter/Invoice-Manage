@@ -174,12 +174,37 @@
 
   .tableHeader { display: none; }
   .itemRow { 
-    grid-template-columns: 1fr 1fr; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 24px;
-    margin-bottom: 0;
   }
   .itemQty, .itemPrice { display: none; }
-  .itemMetaMobile { display: block; margin-top: 8px; color: #7E88C3; font-weight: 700; }
+  .itemName p {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+    color: var(--color-text-main);
+    margin-bottom: 8px;
+  }
+  .itemMetaMobile {
+    display: block;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+    color: #7E88C3;
+  }
+  .itemTotal {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+    text-align: right;
+    color: var(--color-text-main);
+  }
   
   .desktopActions { display: none; }
   .mobileActions {
