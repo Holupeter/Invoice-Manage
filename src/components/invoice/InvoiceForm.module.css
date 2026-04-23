@@ -43,6 +43,41 @@
 
 .field { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; position: relative; }
 .field label { font-size: 13px; color: #7E88C3; letter-spacing: -0.1px; font-weight: 500; }
+
+/* Label row: label + error text side by side */
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.labelRow label { font-size: 13px; color: #7E88C3; letter-spacing: -0.1px; font-weight: 500; }
+
+/* Error text */
+.errorText {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: -0.21px;
+  color: #EC5757;
+}
+
+/* Red border on errored inputs */
+.fieldError {
+  border-color: #EC5757 !important;
+}
+
+/* Error summary at bottom of form */
+.formErrors {
+  margin-top: 32px;
+}
+.formErrors p {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: -0.21px;
+  color: #EC5757;
+  margin-bottom: 4px;
+}
 .field input, .selectField {
   height: 48px;
   border: 1px solid #DFE3FA;

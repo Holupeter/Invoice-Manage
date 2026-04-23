@@ -3,7 +3,7 @@ import styles from './DatePicker.module.css';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-const DatePicker = ({ value, onChange }) => {
+const DatePicker = ({ value, onChange, hasError }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
@@ -103,7 +103,7 @@ const DatePicker = ({ value, onChange }) => {
     <div className={styles.wrapper} ref={ref}>
       <button
         type="button"
-        className={styles.trigger}
+        className={`${styles.trigger} ${hasError ? styles.triggerError : ''}`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{displayValue || 'Select date'}</span>

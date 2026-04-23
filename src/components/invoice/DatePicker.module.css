@@ -31,6 +31,10 @@
   border-color: #7C5DFA;
 }
 
+.triggerError {
+  border-color: #EC5757 !important;
+}
+
 /* ================================
    CALENDAR DROPDOWN
    Figma: 240 × 243px
