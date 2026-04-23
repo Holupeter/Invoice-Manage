@@ -5,12 +5,13 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 100; /* Below sidebar */
+  z-index: 100;
 }
+
 .drawer {
   position: fixed;
   top: 0;
-  left: 103px; /* Stays at the edge of the sidebar */
+  left: 103px;
   width: 100%;
   max-width: 719px;
   height: 100vh;
@@ -21,7 +22,7 @@
   box-shadow: 10px 0 20px rgba(0,0,0,0.1);
   box-sizing: border-box;
   animation: slideIn 0.4s ease-out;
-  z-index: 101; /* Above main content, but below Sidebar (200) */
+  z-index: 101;
 }
 
 @keyframes slideIn {
@@ -29,36 +30,20 @@
   to { transform: translateX(0); }
 }
 
-/* FIXED HEADER AREA */
-.headerTitle {
-  padding: 56px 56px 0 56px;
-  background: var(--color-card-bg);
-}
+.headerTitle { padding: 56px 56px 0 56px; background: var(--color-card-bg); }
+.title { font-size: 24px; font-weight: 700; color: var(--color-text-main); margin-bottom: 48px; }
 
-.title { 
-  font-size: 24px; 
-  font-weight: 700; 
-  color: var(--color-text-main); 
-  margin-bottom: 48px; 
-}
-
-/* SCROLLABLE FORM CONTENT */
 .formContent {
-  flex: 1; /* Takes up all space between header and footer */
-  overflow-y: auto; /* Only this section scrolls */
+  flex: 1;
+  overflow-y: auto;
   padding: 0 56px 48px 56px;
 }
 
-.sectionTitle { 
-  font-size: 15px; 
-  color: var(--color-primary); 
-  margin-bottom: 24px; 
-  font-weight: 700; 
-}
+.sectionTitle { font-size: 15px; color: var(--color-primary); margin-bottom: 24px; font-weight: 700; }
 
 .field { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
 .field label { font-size: 13px; color: #7E88C3; }
-.field input {
+.field input, .selectField {
   height: 48px;
   border: 1px solid #DFE3FA;
   border-radius: 4px;
@@ -71,55 +56,28 @@
 }
 
 .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
 /* Item List */
 .itemTitle { font-size: 18px; color: #777F98; margin-bottom: 16px; font-weight: 700; }
 .itemHeader { display: grid; grid-template-columns: 3fr 1fr 2fr 1fr 0.5fr; gap: 16px; margin-bottom: 16px; color: #7E88C3; font-size: 13px; }
-
 .itemRow { display: grid; grid-template-columns: 3fr 1fr 2fr 1fr 0.5fr; gap: 16px; align-items: end; margin-bottom: 18px; }
-.itemRow input { 
-  height: 48px; 
-  border: 1px solid #DFE3FA; 
-  border-radius: 4px; 
-  padding: 0 12px; 
-  font-weight: 700; 
-  color: var(--color-text-main); 
-  background: var(--color-card-bg); 
-  width: 100%; 
-  box-sizing: border-box; 
-}
-
 .itemTotal { font-weight: 700; color: #888EB0; display: block; margin-bottom: 15px; }
 
 .deleteBtn { background: none; border: none; cursor: pointer; margin-bottom: 15px; }
-.addNewBtn { 
-  width: 100%; 
-  height: 48px; 
-  border-radius: 24px; 
-  background: #F9FAFE; 
-  border: none; 
-  color: #7E88C3; 
-  font-weight: 700; 
-  cursor: pointer; 
-  margin-top: 16px; 
-}
+.addNewBtn { width: 100%; height: 48px; border-radius: 24px; background: #F9FAFE; border: none; color: #7E88C3; font-weight: 700; cursor: pointer; margin-top: 16px; }
 
 .mobileLabel { display: none; }
 
-/* FIXED FOOTER */
+/* Footer */
 .footer { 
   display: flex; 
   justify-content: space-between; 
   padding: 32px 56px; 
   background: var(--color-card-bg); 
   border-top: 1px solid #DFE3FA;
-  box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
 }
-
-.footerRight {
-  display: flex;
-  gap: 8px; /* Space between Draft and Send buttons */
-}
+.footerRight { display: flex; gap: 8px; }
 
 .discardBtn, .draftBtn, .saveBtn { height: 48px; border-radius: 24px; border: none; font-weight: 700; cursor: pointer; padding: 0 24px; font-family: 'League Spartan', sans-serif; }
 .discardBtn { background: #F9FAFE; color: #7E88C3; }
@@ -136,11 +94,7 @@
 
 @media (max-width: 767px) {
   .drawer { top: 72px; max-width: 100%; height: calc(100vh - 72px); }
-  .headerTitle { padding: 24px 24px 0 24px; }
-  .formContent { padding: 24px; }
-  .footer { padding: 24px; }
-  
-  .grid3 { grid-template-columns: 1fr 1fr; gap: 15px; }
+  .grid3, .grid2 { grid-template-columns: 1fr 1fr; gap: 15px; }
   .grid3 > div:last-child { grid-column: span 2; }
   .itemHeader { display: none; }
   .mobileLabel { display: block; font-size: 13px; color: #7E88C3; margin-bottom: 10px; }

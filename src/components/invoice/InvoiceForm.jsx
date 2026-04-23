@@ -53,6 +53,29 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
               </div>
             </section>
 
+            {/* Invoice Details (Date, Terms, Description) */}
+            <section style={{ marginTop: '48px' }}>
+              <div className={styles.grid2}>
+                <div className={styles.field}>
+                  <label>Invoice Date</label>
+                  <input type="date" defaultValue={invoiceData?.createdAt} />
+                </div>
+                <div className={styles.field}>
+                  <label>Payment Terms</label>
+                  <select className={styles.selectField} defaultValue={invoiceData?.paymentTerms || 30}>
+                    <option value={1}>Net 1 Day</option>
+                    <option value={7}>Net 7 Days</option>
+                    <option value={14}>Net 14 Days</option>
+                    <option value={30}>Net 30 Days</option>
+                  </select>
+                </div>
+              </div>
+              <div className={styles.field}>
+                <label>Project Description</label>
+                <input type="text" placeholder="e.g. Graphic Design Service" defaultValue={invoiceData?.description} />
+              </div>
+            </section>
+
             {/* Item List */}
             <section style={{ marginTop: '32px' }}>
               <h2 className={styles.itemTitle}>Item List</h2>
