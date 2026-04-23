@@ -236,6 +236,9 @@ Used `minmax(0, 1fr)` grid patterns to ensure large monetary amounts (millions) 
 ### 8. Delete Modal with Scroll Lock
 The confirmation modal properly prevents background page scrolling when active.
 
+### 9. Fully Responsive Authentication System
+Implemented a pixel-perfect, local-storage-backed Login and Sign-Up system. Users are forced to authenticate before accessing their dashboard, and session states (as well as registered accounts) are persisted seamlessly in the browser.
+
 ---
 
 ## 📱 Responsive Breakpoints
