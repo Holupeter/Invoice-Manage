@@ -4,7 +4,7 @@
   padding: 16px 24px;
   display: grid;
   /* 5 columns: ID | Date | Name | Total | StatusWrapper (badge+arrow) */
-  grid-template-columns: 87px 140px 1fr auto auto;
+  grid-template-columns: 87px 140px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0 20px;
   text-decoration: none;
@@ -83,7 +83,7 @@
 /* --- TABLET (768px - 1024px) --- */
 @media (max-width: 1024px) and (min-width: 768px) {
   .card {
-    grid-template-columns: 80px 120px 1fr auto auto;
+    grid-template-columns: 80px 120px minmax(0, 1fr) auto auto;
     padding: 16px 24px;
     gap: 0 16px;
   }

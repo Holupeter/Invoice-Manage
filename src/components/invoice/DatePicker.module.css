@@ -1,0 +1,127 @@
+/* Wrapper */
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Trigger button — looks like an input field */
+.trigger {
+  height: 48px;
+  border: 1px solid #DFE3FA;
+  border-radius: 4px;
+  padding: 0 20px;
+  background: var(--color-card-bg);
+  color: var(--color-text-main);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  font-family: 'League Spartan', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.trigger:focus,
+.trigger:hover {
+  border-color: #7C5DFA;
+}
+
+/* ================================
+   CALENDAR DROPDOWN
+   Figma: 240 × 243px
+   ================================ */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 240px;
+  background: var(--color-card-bg);
+  border-radius: 8px;
+  box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
+  z-index: 400;
+  padding: 25px 18px 22px 18px;
+  box-sizing: border-box;
+  animation: calFadeIn 0.2s ease-out;
+}
+
+@keyframes calFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Month/Year header row */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.monthYear {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 15px;
+  letter-spacing: -0.25px;
+  color: var(--color-text-main);
+  text-align: center;
+}
+
+.navBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navBtn:hover svg path {
+  stroke: #9277FF;
+}
+
+/* ================================
+   DAY GRID — 7 columns
+   Figma: Each day ~16px wide, 31px column spacing
+   ================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 16px;
+}
+
+.day {
+  background: none;
+  border: none;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 15px;
+  letter-spacing: -0.25px;
+  color: var(--color-text-main);
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.day:hover:not(:disabled) {
+  color: #7C5DFA;
+}
+
+/* Selected date — purple */
+.day.selected {
+  color: #9277FF;
+}
+
+/* Days from adjacent months — Figma: opacity 0.08 */
+.day.otherMonth {
+  opacity: 0.08;
+  cursor: default;
+}

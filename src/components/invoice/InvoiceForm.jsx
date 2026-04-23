@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './InvoiceForm.module.css';
 import TrashIcon from '../../assets/icon-delete.svg';
+import ArrowDown from '../../assets/icon-arrow-down.svg';
+import DatePicker from './DatePicker';
 import { useInvoices } from '../../context/InvoiceContext';
+
+const PAYMENT_OPTIONS = [
+  { value: 1, label: 'Net 1 Day' },
+  { value: 7, label: 'Net 7 Days' },
+  { value: 14, label: 'Net 14 Days' },
+  { value: 30, label: 'Net 30 Days' },
+];
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+};
 
 const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
   const { addInvoice, updateInvoice } = useInvoices();
+  const [termsOpen, setTermsOpen] = useState(false);
+  const termsRef = useRef(null);
 
   const [formData, setFormData] = useState({
     description: '',
@@ -35,7 +52,19 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
         items: []
       });
     }
+    setTermsOpen(false);
   }, [invoiceData, isOpen]);
+
+  // Close terms dropdown on outside click
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (termsRef.current && !termsRef.current.contains(e.target)) {
+        setTermsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
   const generateId = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -86,6 +115,8 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
     else addInvoice(finalInvoice);
   };
 
+  const selectedTermsLabel = PAYMENT_OPTIONS.find(o => o.value === formData.paymentTerms)?.label || 'Net 30 Days';
+
   if (!isOpen) return null;
 
   return (
@@ -97,6 +128,7 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
 
         <div className={styles.formContent}>
           <form id="invoice-form" onSubmit={(e) => handleSubmit(e)}>
+            {/* BILL FROM */}
             <section>
               <h3 className={styles.sectionTitle}>Bill From</h3>
               <div className={styles.field}><label>Street Address</label><input type="text" value={formData.senderAddress.street} onChange={(e) => setFormData({...formData, senderAddress: {...formData.senderAddress, street: e.target.value}})} /></div>
@@ -107,10 +139,11 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
               </div>
             </section>
 
+            {/* BILL TO */}
             <section style={{ marginTop: '48px' }}>
               <h3 className={styles.sectionTitle}>Bill To</h3>
               <div className={styles.field}><label>Client's Name</label><input type="text" value={formData.clientName} onChange={(e) => setFormData({...formData, clientName: e.target.value})} /></div>
-              <div className={styles.field}><label>Client's Email</label><input type="email" value={formData.clientEmail} onChange={(e) => setFormData({...formData, clientEmail: e.target.value})} /></div>
+              <div className={styles.field}><label>Client's Email</label><input type="email" placeholder="e.g. email@example.com" value={formData.clientEmail} onChange={(e) => setFormData({...formData, clientEmail: e.target.value})} /></div>
               <div className={styles.field}><label>Street Address</label><input type="text" value={formData.clientAddress.street} onChange={(e) => setFormData({...formData, clientAddress: {...formData.clientAddress, street: e.target.value}})} /></div>
               <div className={styles.grid3}>
                 <div className={styles.field}><label>City</label><input type="text" value={formData.clientAddress.city} onChange={(e) => setFormData({...formData, clientAddress: {...formData.clientAddress, city: e.target.value}})} /></div>
@@ -119,31 +152,91 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
               </div>
             </section>
 
+            {/* DATE & TERMS */}
             <section style={{ marginTop: '48px' }}>
               <div className={styles.grid2}>
-                <div className={styles.field}><label>Invoice Date</label><input type="date" value={formData.createdAt} onChange={(e) => setFormData({...formData, createdAt: e.target.value})} /></div>
-                <div className={styles.field}><label>Payment Terms</label><select className={styles.selectField} value={formData.paymentTerms} onChange={(e) => setFormData({...formData, paymentTerms: parseInt(e.target.value)})}><option value={1}>Net 1 Day</option><option value={7}>Net 7 Days</option><option value={14}>Net 14 Days</option><option value={30}>Net 30 Days</option></select></div>
+                {/* Invoice Date — custom date picker */}
+                <div className={styles.field}>
+                  <label>Invoice Date</label>
+                  <DatePicker
+                    value={formData.createdAt}
+                    onChange={(val) => setFormData({...formData, createdAt: val})}
+                  />
+                </div>
+
+                {/* Payment Terms — custom dropdown */}
+                <div className={styles.field} ref={termsRef}>
+                  <label>Payment Terms</label>
+                  <button
+                    type="button"
+                    className={styles.termsButton}
+                    onClick={() => setTermsOpen(!termsOpen)}
+                  >
+                    <span>{selectedTermsLabel}</span>
+                    <img src={ArrowDown} alt="" className={termsOpen ? styles.arrowRotated : ''} />
+                  </button>
+                  {termsOpen && (
+                    <div className={styles.termsDropdown}>
+                      {PAYMENT_OPTIONS.map((opt, i) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          className={`${styles.termsOption} ${formData.paymentTerms === opt.value ? styles.termsOptionActive : ''}`}
+                          onClick={() => { setFormData({...formData, paymentTerms: opt.value}); setTermsOpen(false); }}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className={styles.field}><label>Project Description</label><input type="text" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} /></div>
+              <div className={styles.field}><label>Project Description</label><input type="text" placeholder="e.g. Graphic Design Service" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} /></div>
             </section>
 
+            {/* ITEM LIST */}
             <section style={{ marginTop: '32px' }}>
               <h2 className={styles.itemTitle}>Item List</h2>
+
+              {/* Column header — desktop/tablet only */}
+              <div className={styles.itemHeader}>
+                <span>Item Name</span>
+                <span>Qty.</span>
+                <span>Price</span>
+                <span>Total</span>
+                <span></span>
+              </div>
+
               {(formData.items || []).map((item) => (
                 <div key={item.id} className={styles.itemRow}>
-                  <div className={styles.itemNameInput}><label className={styles.mobileLabel}>Item Name</label><input type="text" value={item.name} onChange={(e) => handleItemChange(item.id, 'name', e.target.value)} /></div>
-                  <div className={styles.itemQtyInput}><label className={styles.mobileLabel}>Qty.</label><input type="number" value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', parseInt(e.target.value))} /></div>
-                  <div className={styles.itemPriceInput}><label className={styles.mobileLabel}>Price</label><input type="number" value={item.price} onChange={(e) => handleItemChange(item.id, 'price', parseFloat(e.target.value))} /></div>
-                  <div className={styles.itemTotalGroup}><label className={styles.mobileLabel}>Total</label><span className={styles.itemTotal}>{((item.quantity || 0) * (item.price || 0)).toFixed(2)}</span></div>
-                  <button type="button" onClick={() => setFormData({...formData, items: formData.items.filter(i => i.id !== item.id)})} className={styles.deleteBtn}><img src={TrashIcon} alt="Delete" /></button>
+                  <div className={styles.itemNameInput}>
+                    <label className={styles.mobileLabel}>Item Name</label>
+                    <input type="text" value={item.name} onChange={(e) => handleItemChange(item.id, 'name', e.target.value)} />
+                  </div>
+                  <div className={styles.itemQtyInput}>
+                    <label className={styles.mobileLabel}>Qty.</label>
+                    <input type="number" value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', parseInt(e.target.value))} />
+                  </div>
+                  <div className={styles.itemPriceInput}>
+                    <label className={styles.mobileLabel}>Price</label>
+                    <input type="number" step="0.01" value={item.price} onChange={(e) => handleItemChange(item.id, 'price', parseFloat(e.target.value))} />
+                  </div>
+                  <div className={styles.itemTotalGroup}>
+                    <label className={styles.mobileLabel}>Total</label>
+                    <span className={styles.itemTotal}>{((item.quantity || 0) * (item.price || 0)).toFixed(2)}</span>
+                  </div>
+                  <button type="button" onClick={() => setFormData({...formData, items: formData.items.filter(i => i.id !== item.id)})} className={styles.deleteBtn}>
+                    <img src={TrashIcon} alt="Delete" />
+                  </button>
                 </div>
               ))}
+
               <button type="button" className={styles.addNewBtn} onClick={addItem}>+ Add New Item</button>
             </section>
           </form>
         </div>
 
-        {/* DYNAMIC FOOTER LOGIC */}
+        {/* FOOTER */}
         <div className={styles.footer}>
           {type === 'new' ? (
             <>

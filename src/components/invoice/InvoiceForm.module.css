@@ -39,87 +39,337 @@
   padding: 0 56px 48px 56px;
 }
 
-.sectionTitle { font-size: 15px; color: var(--color-primary); margin-bottom: 24px; font-weight: 700; }
+.sectionTitle { font-size: 15px; color: var(--color-primary); margin-bottom: 24px; font-weight: 700; letter-spacing: -0.25px; }
 
-.field { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-.field label { font-size: 13px; color: #7E88C3; }
+.field { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; position: relative; }
+.field label { font-size: 13px; color: #7E88C3; letter-spacing: -0.1px; font-weight: 500; }
 .field input, .selectField {
   height: 48px;
   border: 1px solid #DFE3FA;
   border-radius: 4px;
   padding: 0 20px;
   font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
   color: var(--color-text-main);
   background: var(--color-card-bg);
   width: 100%;
   box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.field input:focus {
+  border-color: var(--color-primary);
+}
+
+.field input::placeholder {
+  color: var(--color-text-main);
+  opacity: 0.4;
 }
 
 .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
-/* Item List */
-.itemTitle { font-size: 18px; color: #777F98; margin-bottom: 16px; font-weight: 700; }
-.itemHeader { display: grid; grid-template-columns: 3fr 1fr 2fr 1fr 0.5fr; gap: 16px; margin-bottom: 16px; color: #7E88C3; font-size: 13px; }
-.itemRow { display: grid; grid-template-columns: 3fr 1fr 2fr 1fr 0.5fr; gap: 16px; align-items: end; margin-bottom: 18px; }
-.itemTotal { font-weight: 700; color: #888EB0; display: block; margin-bottom: 15px; }
+/* ================================
+   INVOICE DATE INPUT
+   Figma: Calendar icon on the right
+   ================================ */
+.dateInputWrapper {
+  position: relative;
+}
 
-.deleteBtn { background: none; border: none; cursor: pointer; margin-bottom: 15px; }
-.addNewBtn { width: 100%; height: 48px; border-radius: 24px; background: #F9FAFE; border: none; color: #7E88C3; font-weight: 700; cursor: pointer; margin-top: 16px; }
+.dateInput {
+  height: 48px;
+  border: 1px solid #DFE3FA;
+  border-radius: 4px;
+  padding: 0 20px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  color: var(--color-text-main);
+  background: var(--color-card-bg);
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.dateInput:focus {
+  border-color: var(--color-primary);
+}
+
+/* Style the native calendar icon */
+.dateInput::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(45%) sepia(20%) saturate(700%) hue-rotate(196deg) brightness(95%) contrast(90%);
+}
+
+/* ================================
+   PAYMENT TERMS — CUSTOM DROPDOWN
+   Figma: Trigger button + dropdown
+   ================================ */
+.termsButton {
+  height: 48px;
+  border: 1px solid #DFE3FA;
+  border-radius: 4px;
+  padding: 0 20px;
+  background: var(--color-card-bg);
+  color: var(--color-text-main);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  font-family: 'League Spartan', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.termsButton:focus,
+.termsButton:hover {
+  border-color: var(--color-primary);
+}
+
+.termsButton img {
+  width: 10px;
+  transition: transform 0.2s;
+}
+
+.arrowRotated {
+  transform: rotate(180deg);
+}
+
+/* Figma: Dropdown panel with dividers */
+.termsDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: var(--color-card-bg);
+  border-radius: 8px;
+  box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.termsOption {
+  padding: 16px 24px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #DFE3FA;
+  text-align: left;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.termsOption:last-child {
+  border-bottom: none;
+}
+
+.termsOption:hover {
+  color: #7C5DFA;
+}
+
+.termsOptionActive {
+  color: #7C5DFA;
+}
+
+/* ================================
+   ITEM LIST — Figma Spec
+   Columns: Item Name | Qty. | Price | Total | Delete
+   ================================ */
+.itemTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #777F98;
+  letter-spacing: -0.38px;
+  margin-bottom: 16px;
+}
+
+/* Column header labels — desktop only */
+.itemHeader {
+  display: grid;
+  grid-template-columns: 214px 46px 100px 1fr 16px;
+  gap: 16px;
+  margin-bottom: 16px;
+  color: #7E88C3;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+}
+
+/* Item row grid — matches header columns exactly */
+.itemRow {
+  display: grid;
+  grid-template-columns: 214px 46px 100px 1fr 16px;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+/* Item inputs inherit the global field styling */
+.itemRow input {
+  height: 48px;
+  border: 1px solid #DFE3FA;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  color: var(--color-text-main);
+  background: var(--color-card-bg);
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.itemRow input:focus {
+  border-color: var(--color-primary);
+}
+
+/* Qty input — centered text */
+.itemQtyInput input {
+  text-align: center;
+  padding: 0 4px;
+}
+
+.itemTotal {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  color: #888EB0;
+  line-height: 48px;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 48px;
+}
+
+.deleteBtn:hover img {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(91%) saturate(1788%) hue-rotate(331deg) brightness(96%) contrast(91%);
+}
+
+.addNewBtn {
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  background: #F9FAFE;
+  border: none;
+  color: #7E88C3;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  font-family: 'League Spartan', sans-serif;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background-color 0.2s;
+}
+
+.addNewBtn:hover {
+  background: #DFE3FA;
+}
 
 .mobileLabel { display: none; }
 
-/* Footer */
-.footer { 
-  display: flex; 
-  justify-content: space-between; 
-  padding: 32px 56px; 
-  background: var(--color-card-bg); 
+/* ================================
+   FOOTER
+   ================================ */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 32px 56px;
+  background: var(--color-card-bg);
   border-top: 1px solid #DFE3FA;
 }
 .footerRight { display: flex; gap: 8px; }
 
-.discardBtn, .draftBtn, .saveBtn { height: 48px; border-radius: 24px; border: none; font-weight: 700; cursor: pointer; padding: 0 24px; font-family: 'League Spartan', sans-serif; }
+.discardBtn, .draftBtn, .saveBtn {
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.25px;
+  cursor: pointer;
+  padding: 0 24px;
+  font-family: 'League Spartan', sans-serif;
+  transition: opacity 0.2s;
+}
 .discardBtn { background: #F9FAFE; color: #7E88C3; }
+.discardBtn:hover { background: #DFE3FA; }
 .draftBtn { background: #373B53; color: #888EB0; }
+.draftBtn:hover { background: #0C0E16; }
 .saveBtn { background: #7C5DFA; color: #FFFFFF; }
+.saveBtn:hover { background: #9277FF; }
 
-/* RESPONSIVE */
+/* ================================
+   TABLET (768px - 1024px)
+   ================================ */
 @media (max-width: 1024px) {
   .drawer { left: 0; top: 80px; max-width: 616px; height: calc(100vh - 80px); z-index: 99; }
   .headerTitle { padding: 32px 32px 0 32px; }
   .formContent { padding: 32px; }
   .footer { padding: 24px 32px; }
+  .itemHeader { grid-template-columns: 3fr 1fr 2fr 1fr 16px; }
+  .itemRow { grid-template-columns: 3fr 1fr 2fr 1fr 16px; }
 }
 
+/* ================================
+   MOBILE (below 768px)
+   ================================ */
 @media (max-width: 767px) {
   .drawer { top: 72px; max-width: 100%; height: calc(100vh - 72px); }
   .headerTitle { padding: 24px 24px 0 24px; }
   .formContent { padding: 0 24px 24px 24px; }
   .grid3, .grid2 { grid-template-columns: 1fr 1fr; gap: 15px; }
   .grid3 > div:last-child { grid-column: span 2; }
-  .itemHeader { display: none; }
-  .mobileLabel { display: block; font-size: 13px; color: #7E88C3; margin-bottom: 10px; }
-  .itemRow { grid-template-columns: 1fr 2fr 1fr 0.5fr; gap: 24px 16px; }
-  .itemNameInput { grid-column: span 4; }
-  .itemTotal { margin-bottom: 15px; }
 
-  /* Figma: Footer buttons in mobile */
+  /* Item list: stacked layout on mobile */
+  .itemHeader { display: none; }
+  .mobileLabel { display: block; font-size: 13px; color: #7E88C3; margin-bottom: 10px; font-weight: 500; }
+  .itemRow {
+    grid-template-columns: 64px 1fr 1fr 16px;
+    gap: 16px;
+  }
+  .itemNameInput { grid-column: 1 / -1; }
+
+  /* Footer buttons */
   .footer {
     padding: 22px 24px;
     gap: 8px;
     flex-wrap: wrap;
   }
   .footerLeft { flex: 0 0 auto; }
-  .footerRight { 
-    display: flex; 
-    gap: 8px; 
-    margin-left: auto; 
+  .footerRight {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
   }
   .discardBtn, .draftBtn, .saveBtn {
-    height: 48px;
     padding: 0 16px;
-    font-size: 15px;
-    letter-spacing: -0.25px;
   }
 }
