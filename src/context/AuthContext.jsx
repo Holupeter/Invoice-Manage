@@ -45,8 +45,17 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateProfilePic = (dataUrl) => {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const updatedUsers = users.map(u => 
+      u.email === user.email ? { ...u, profilePic: dataUrl } : u
+    );
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    setUser({ ...user, profilePic: dataUrl });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, updateProfilePic }}>
       {children}
     </AuthContext.Provider>
   );
