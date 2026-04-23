@@ -20,7 +20,6 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
     if (invoiceData) {
       setFormData({
         ...invoiceData,
-        // Ensure sub-objects exist to prevent crashes
         senderAddress: invoiceData.senderAddress || { street: '', city: '', postCode: '', country: '' },
         clientAddress: invoiceData.clientAddress || { street: '', city: '', postCode: '', country: '' },
         items: invoiceData.items || []
@@ -144,12 +143,35 @@ const InvoiceForm = ({ isOpen, onClose, type = 'new', invoiceData }) => {
           </form>
         </div>
 
+        {/* DYNAMIC FOOTER LOGIC */}
         <div className={styles.footer}>
-          <div className={styles.footerLeft}><button className={styles.discardBtn} onClick={onClose}>Discard</button></div>
-          <div className={styles.footerRight}>
-            <button className={styles.draftBtn} onClick={() => handleSubmit(null, 'draft')}>Save as Draft</button>
-            <button className={styles.saveBtn} form="invoice-form" type="submit">Save & Send</button>
-          </div>
+          {type === 'new' ? (
+            <>
+              <div className={styles.footerLeft}>
+                <button type="button" className={styles.discardBtn} onClick={onClose}>Discard</button>
+              </div>
+              <div className={styles.footerRight}>
+                <button type="button" className={styles.draftBtn} onClick={() => handleSubmit(null, 'draft')}>
+                  Save as Draft
+                </button>
+                <button type="submit" className={styles.saveBtn} form="invoice-form">
+                  Save & Send
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.footerLeft}></div>
+              <div className={styles.footerRight}>
+                <button type="button" className={styles.discardBtn} onClick={onClose}>
+                  Cancel
+                </button>
+                <button type="submit" className={styles.saveBtn} form="invoice-form">
+                  Save Changes
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
